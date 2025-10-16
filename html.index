@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Neoansa | Katalog Seni</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #111;
+      color: #ddd;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(180deg, #000, #222);
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      color: #f0f0f0;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      max-width: 600px;
+      margin: 20px auto;
+      color: #aaa;
+      font-size: 1.1rem;
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #f5f5f5;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #555;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      padding: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: #1b1b1b;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      margin: 15px 0 5px;
+      color: #fff;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #aaa;
+      padding: 0 15px 10px;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      margin: 10px auto 20px;
+      padding: 10px 18px;
+      background-color: #25d366;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .whatsapp-btn:hover {
+      background-color: #1ebe5d;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      color: #777;
+      font-size: 0.9rem;
+      border-top: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Studio Neoansa</h1>
+    <p>Menghidupkan kembali budaya dan seni melalui karya Diorama, Patung, dan Figuratif Art. 
+    Setiap karya kami adalah bentuk penghormatan terhadap nilai estetika dan tradisi yang menginspirasi.</p>
+  </header>
+
+  <section id="diorama">
+    <h2>Diorama</h2>
+    <div class="gallery">
+      <div class="card">
+        <img src="https://source.unsplash.com/600x400/?diorama,art" alt="Diorama 1">
+        <h3>Diorama Tradisional</h3>
+        <p>Miniatur pemandangan budaya lokal yang penuh detail dan makna.</p>
+        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
+      </div>
+      <div class="card">
+        <img src="https://source.unsplash.com/600x400/?miniature,sculpture" alt="Diorama 2">
+        <h3>Diorama Sejarah</h3>
+        <p>Menceritakan kisah masa lalu lewat karya tiga dimensi yang hidup.</p>
+        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="patung">
+    <h2>Patung</h2>
+    <div class="gallery">
+      <div class="card">
+        <img src="https://source.unsplash.com/600x400/?sculpture,art" alt="Patung 1">
+        <h3>Patung Klasik</h3>
+        <p>Dibentuk dengan kehalusan dan ketelitian, menampilkan keanggunan budaya.</p>
+        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
+      </div>
+      <div class="card">
+        <img src="https://source.unsplash.com/600x400/?statue,handmade" alt="Patung 2">
+        <h3>Patung Modern</h3>
+        <p>Perpaduan seni klasik dan ekspresi kontemporer dalam satu karya unik.</p>
+        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="figuratif">
+    <h2>Figuratif Art</h2>
+    <div class="gallery">
+      <div class="card">
+        <img src="https://source.unsplash.com/600x400/?figurative,art" alt="Figuratif 1">
+        <h3>Ekspresi Jiwa</h3>
+        <p>Visualisasi manusia dan budaya dalam harmoni warna dan bentuk.</p>
+        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
+      </div>
+      <div class="card">
+        <img src="https://source.unsplash.com/600x400/?art,painting" alt="Figuratif 2">
+        <h3>Seni Naratif</h3>
+        <p>Menceritakan kisah dan emosi lewat goresan penuh makna.</p>
+        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Studio Neoansa — Karya Seni dan Budaya Indonesia
+  </footer>
+</body>
+</html>

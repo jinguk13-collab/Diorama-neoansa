@@ -1,178 +1,300 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Studio Neoansa | Katalog Seni</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Studio Neoansa — Katalog Seni</title>
+  <meta name="description" content="Katalog Studio Neoansa — Diorama, Patung, Figuratif Art" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #111;
-      color: #ddd;
-      line-height: 1.6;
+    :root{
+      --bg:#0b0b0b; --panel:#121212; --muted:#9aa0a6; --accent:#25d366; --card:#161616;
+      --glass: rgba(255,255,255,0.03);
+    }
+    [data-theme="light"]{
+      --bg:#f5f5f6; --panel:#ffffff; --muted:#4a4a4a; --accent:#0ea858; --card:#fff; --glass: rgba(0,0,0,0.03);
+      color-scheme: light;
+    }
+    html,body{height:100%; margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{background:var(--bg); color:#e9e9ea; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:linear-gradient(180deg,var(--panel),transparent);border-bottom:1px solid rgba(255,255,255,0.03);position:sticky;top:0;z-index:40;}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:46px;width:auto}
+    .brand h1{margin:0;font-size:1.05rem;letter-spacing:0.6px}
+    .brand p{margin:0;font-size:0.78rem;color:var(--muted)}
+    nav {display:flex;gap:12px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:0.92rem}
+    nav a:hover{color:#fff}
+
+    /* Controls */
+    .controls{max-width:1100px;margin:28px auto 6px;padding:0 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+    .left-controls{display:flex;gap:10px;flex:1;min-width:260px;align-items:center}
+    .search{position:relative;flex:1;min-width:180px}
+    .search input{width:100%;padding:10px 36px 10px 34px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:var(--card);color:inherit;font-size:0.95rem}
+    .search::before{content:'🔎';position:absolute;left:10px;top:8px}
+    select, button.control-btn{padding:9px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:var(--card);color:inherit;font-weight:600}
+    .category-list{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{padding:8px 12px;border-radius:999px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);cursor:pointer;color:var(--muted);font-weight:600}
+    .chip.active{background:linear-gradient(90deg,rgba(255,255,255,0.03), rgba(255,255,255,0.02));color:#fff;border-color:rgba(255,255,255,0.06)}
+
+    /* Grid / Masonry-like */
+    main{max-width:1200px;margin:0 auto;padding:10px 18px 80px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(240px,1fr));gap:16px}
+    .card{background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.6);transition:transform .18s ease,box-shadow .18s;}
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(0,0,0,0.7)}
+    .thumb{width:100%;height:180px;object-fit:cover;display:block;background:#222}
+    .card-body{padding:12px 14px}
+    .title{font-size:1rem;margin:0 0 6px;color:#fff}
+    .meta{font-size:0.86rem;color:var(--muted);margin-bottom:8px}
+    .price-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .price{font-weight:800;color:#fff}
+    .status{font-size:0.8rem;padding:6px 8px;border-radius:8px}
+    .status.available{background:rgba(37,211,102,0.12);color:var(--accent);border:1px solid rgba(37,211,102,0.12)}
+    .status.sold{background:rgba(255,80,80,0.08);color:#ff6b6b;border:1px solid rgba(255,80,80,0.06)}
+
+    .card-actions{display:flex;gap:8px;margin-top:10px}
+    .btn{flex:1;padding:9px 10px;border-radius:8px;border:0;font-weight:700;cursor:pointer}
+    .btn.wa{background:var(--accent);color:#fff}
+    .btn.detail{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* Floating WhatsApp button */
+    .wa-float{position:fixed;right:18px;bottom:18px;background:var(--accent);color:#fff;border-radius:999px;padding:14px 16px;font-weight:800;z-index:70;box-shadow:0 8px 28px rgba(2,80,40,0.3);text-decoration:none}
+    .top-btn{position:fixed;right:18px;bottom:84px;background:#222;padding:10px;border-radius:999px;color:#fff;border:1px solid rgba(255,255,255,0.04);z-index:60;cursor:pointer}
+
+    /* Modal / Lightbox */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:80;padding:20px}
+    .modal{max-width:980px;width:100%;background:var(--panel);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:1fr 380px;gap:0}
+    .modal .imgwrap{background:#000;display:flex;align-items:center;justify-content:center}
+    .modal img{max-width:100%;max-height:80vh;display:block}
+    .modal .info{padding:18px 20px;color:inherit}
+    .close-btn{position:absolute;top:12px;right:16px;background:transparent;border:0;color:#fff;font-size:20px;cursor:pointer}
+
+    /* small screens */
+    @media (max-width:900px){
+      .modal{grid-template-columns:1fr;max-height:90vh;overflow:auto}
+      .thumb{height:160px}
+    }
+    @media (max-width:520px){
+      header{padding:12px}
+      .controls{padding:0 12px}
+      .thumb{height:150px}
+      .brand p{display:none}
     }
 
-    header {
-      text-align: center;
-      padding: 80px 20px;
-      background: linear-gradient(180deg, #000, #222);
-    }
-
-    header h1 {
-      font-size: 2.8rem;
-      color: #f0f0f0;
-      letter-spacing: 2px;
-    }
-
-    header p {
-      max-width: 600px;
-      margin: 20px auto;
-      color: #aaa;
-      font-size: 1.1rem;
-    }
-
-    section {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    h2 {
-      font-size: 2rem;
-      color: #f5f5f5;
-      margin-bottom: 30px;
-      border-bottom: 2px solid #555;
-      display: inline-block;
-      padding-bottom: 5px;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-      padding: 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .card {
-      background-color: #1b1b1b;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #000;
-      overflow: hidden;
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: scale(1.03);
-    }
-
-    .card img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-
-    .card h3 {
-      margin: 15px 0 5px;
-      color: #fff;
-    }
-
-    .card p {
-      font-size: 0.9rem;
-      color: #aaa;
-      padding: 0 15px 10px;
-    }
-
-    .whatsapp-btn {
-      display: inline-block;
-      margin: 10px auto 20px;
-      padding: 10px 18px;
-      background-color: #25d366;
-      color: #fff;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-
-    .whatsapp-btn:hover {
-      background-color: #1ebe5d;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #111;
-      color: #777;
-      font-size: 0.9rem;
-      border-top: 1px solid #333;
-    }
+    footer{padding:36px 18px;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,0.02);margin-top:36px}
+    /* subtle animations */
+    .fade-in{animation:fadeIn .28s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   </style>
 </head>
-<body>
+<body data-theme="dark">
   <header>
-    <h1>Studio Neoansa</h1>
-    <p>Menghidupkan kembali budaya dan seni melalui karya Diorama, Patung, dan Figuratif Art. 
-    Setiap karya kami adalah bentuk penghormatan terhadap nilai estetika dan tradisi yang menginspirasi.</p>
+    <div class="brand">
+      <!-- ganti logo.png dengan file logo di repo/public -->
+      <img src="logo.png" alt="Studio Neoansa Logo" onerror="this.style.display='none'"/>
+      <div>
+        <h1>Studio Neoansa</h1>
+        <p>Katalog Seni · Diorama · Patung · Figuratif Art</p>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#diorama">Diorama</a>
+      <a href="#patung">Patung</a>
+      <a href="#figuratif">Figuratif</a>
+      <button id="theme-toggle" title="Toggle theme" class="control-btn">🌓</button>
+    </nav>
   </header>
 
-  <section id="diorama">
-    <h2>Diorama</h2>
-    <div class="gallery">
-      <div class="card">
-        <img src="https://source.unsplash.com/600x400/?diorama,art" alt="Diorama 1">
-        <h3>Diorama Tradisional</h3>
-        <p>Miniatur pemandangan budaya lokal yang penuh detail dan makna.</p>
-        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
+  <!-- Controls -->
+  <div class="controls">
+    <div class="left-controls">
+      <div class="search">
+        <input id="search" placeholder="Cari karya, kategori, atau kata kunci..." />
       </div>
-      <div class="card">
-        <img src="https://source.unsplash.com/600x400/?miniature,sculpture" alt="Diorama 2">
-        <h3>Diorama Sejarah</h3>
-        <p>Menceritakan kisah masa lalu lewat karya tiga dimensi yang hidup.</p>
-        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
-      </div>
-    </div>
-  </section>
 
-  <section id="patung">
-    <h2>Patung</h2>
-    <div class="gallery">
-      <div class="card">
-        <img src="https://source.unsplash.com/600x400/?sculpture,art" alt="Patung 1">
-        <h3>Patung Klasik</h3>
-        <p>Dibentuk dengan kehalusan dan ketelitian, menampilkan keanggunan budaya.</p>
-        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
-      </div>
-      <div class="card">
-        <img src="https://source.unsplash.com/600x400/?statue,handmade" alt="Patung 2">
-        <h3>Patung Modern</h3>
-        <p>Perpaduan seni klasik dan ekspresi kontemporer dalam satu karya unik.</p>
-        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
-      </div>
+      <select id="sort">
+        <option value="default">Urutkan: Rekomendasi</option>
+        <option value="price_asc">Termurah → Termahal</option>
+        <option value="price_desc">Termahal → Termurah</option>
+        <option value="newest">Terbaru</option>
+        <option value="oldest">Terlama</option>
+      </select>
     </div>
-  </section>
 
-  <section id="figuratif">
-    <h2>Figuratif Art</h2>
-    <div class="gallery">
-      <div class="card">
-        <img src="https://source.unsplash.com/600x400/?figurative,art" alt="Figuratif 1">
-        <h3>Ekspresi Jiwa</h3>
-        <p>Visualisasi manusia dan budaya dalam harmoni warna dan bentuk.</p>
-        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
-      </div>
-      <div class="card">
-        <img src="https://source.unsplash.com/600x400/?art,painting" alt="Figuratif 2">
-        <h3>Seni Naratif</h3>
-        <p>Menceritakan kisah dan emosi lewat goresan penuh makna.</p>
-        <a href="https://wa.me/6287759782958" class="whatsapp-btn">Pesan via WhatsApp</a>
-      </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div id="category-chips" class="category-list" aria-hidden="false"></div>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    © 2025 Studio Neoansa — Karya Seni dan Budaya Indonesia
-  </footer>
+  <!-- MAIN GRID -->
+  <main>
+    <section id="gallery" class="grid" aria-live="polite"></section>
+
+    <footer>
+      © <span id="year"></span> Studio Neoansa — Katalog Seni & Budaya Indonesia
+    </footer>
+  </main>
+
+  <!-- Floating WA & Top -->
+  <a class="wa-float" id="wa-float" href="https://wa.me/6287759782958" target="_blank" rel="noopener">Chat WA • +62 877-5978-2958</a>
+  <button class="top-btn" id="top-btn" title="Back to top">↑</button>
+
+  <!-- Modal (hidden initially) -->
+  <div id="modal-root" style="display:none"></div>
+
+  <script>
+    /********** DATA: gampang diedit **********/
+    const ART_DATA = [
+      { id:1, category:'Diorama', title:'Diorama Tradisi', desc:'Miniatur budaya lokal dengan detail seni yang autentik.', price:450000, size:'30×20×15 cm', available:true, image:'https://source.unsplash.com/900x700/?diorama,miniature', date:'2025-08-10' },
+      { id:2, category:'Diorama', title:'Diorama Sejarah', desc:'Karya yang merekam peristiwa masa lalu dalam bentuk tiga dimensi.', price:650000, size:'40×30×20 cm', available:true, image:'https://source.unsplash.com/900x700/?historical,miniature', date:'2025-05-12' },
+      { id:3, category:'Patung', title:'Patung Klasik', desc:'Seni pahatan tradisional yang mencerminkan harmoni dan keindahan.', price:1200000, size:'25×25×60 cm', available:false, image:'https://source.unsplash.com/900x700/?sculpture,classic', date:'2025-07-20' },
+      { id:4, category:'Patung', title:'Patung Modern', desc:'Eksplorasi bentuk dan emosi manusia melalui seni rupa tiga dimensi.', price:980000, size:'30×30×70 cm', available:true, image:'https://source.unsplash.com/900x700/?modern,sculpture', date:'2025-09-01' },
+      { id:5, category:'Figuratif', title:'Ekspresi Jiwa', desc:'Menangkap gerak dan emosi manusia dalam harmoni warna dan bentuk.', price:750000, size:'50×70 cm', available:true, image:'https://source.unsplash.com/900x700/?figurative,painting', date:'2025-06-15' },
+      { id:6, category:'Figuratif', title:'Seni Naratif', desc:'Mengisahkan kehidupan dan budaya lewat simbolisme artistik.', price:530000, size:'40×60 cm', available:true, image:'https://source.unsplash.com/900x700/?portrait,art', date:'2025-04-10' }
+    ];
+
+    /********** HELPERS **********/
+    const $ = (q,s=document)=> s.querySelector(q);
+    const $$ = (q,s=document)=> Array.from(s.querySelectorAll(q));
+    function formatPrice(v){ return v==null? '-' : 'Rp' + v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+    function el(tag,attrs={},children=[]){ const e=document.createElement(tag); for(const k in attrs){ if(k==='class') e.className=attrs[k]; else if(k==='html') e.innerHTML=attrs[k]; else e.setAttribute(k,attrs[k]); } (Array.isArray(children)?children:[children]).flat().forEach(c => { if(!c) return; if(typeof c === 'string') e.appendChild(document.createTextNode(c)); else e.appendChild(c); }); return e; }
+
+    /********** RENDER CATEGORY CHIPS **********/
+    const categories = ['All', ...Array.from(new Set(ART_DATA.map(i=>i.category)))];
+    const chipsRoot = $('#category-chips');
+    let activeCategory = 'All';
+
+    function renderChips(){
+      chipsRoot.innerHTML = '';
+      categories.forEach(cat => {
+        const chip = el('button',{class:'chip'+(cat===activeCategory?' active':''),type:'button',title:cat}, cat);
+        chip.addEventListener('click', ()=> {
+          activeCategory = cat;
+          $$('#category-chips .chip').forEach(c=>c.classList.remove('active'));
+          chip.classList.add('active');
+          renderGrid();
+          // scroll to top of gallery for category change
+          document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+        });
+        chipsRoot.appendChild(chip);
+      });
+      // set initial active
+      $$('#category-chips .chip').forEach(c=>{ if(c.textContent===activeCategory) c.classList.add('active')});
+    }
+
+    /********** RENDER GRID **********/
+    const gridRoot = $('#gallery');
+    const searchInput = $('#search');
+    const sortSelect = $('#sort');
+
+    function getFilteredSortedList(){
+      const q = searchInput.value.trim().toLowerCase();
+      let list = ART_DATA.slice();
+      if(activeCategory!=='All') list = list.filter(i => i.category === activeCategory);
+      if(q) list = list.filter(i => (i.title + ' ' + i.desc + ' ' + i.category).toLowerCase().includes(q));
+      const sortVal = sortSelect.value;
+      if(sortVal === 'price_asc') list.sort((a,b)=>a.price - b.price);
+      if(sortVal === 'price_desc') list.sort((a,b)=>b.price - a.price);
+      if(sortVal === 'newest') list.sort((a,b)=> new Date(b.date) - new Date(a.date));
+      if(sortVal === 'oldest') list.sort((a,b)=> new Date(a.date) - new Date(b.date));
+      return list;
+    }
+
+    function renderGrid(){
+      const data = getFilteredSortedList();
+      gridRoot.innerHTML = '';
+      if(data.length === 0){
+        gridRoot.appendChild(el('div',{class:'fade-in',style:'grid-column:1/-1;text-align:center;padding:40px 10px;color:var(--muted)'}, 'Tidak ada hasil. Coba kata kunci lain atau pilih kategori "All".'));
+        return;
+      }
+      data.forEach(item=>{
+        const img = el('img',{class:'thumb',src:item.image,alt:item.title});
+        img.addEventListener('click', ()=> openModal(item));
+        const title = el('h3',{class:'title'}, item.title);
+        const meta = el('div',{class:'meta'}, item.size + ' • ' + item.category);
+        const price = el('div',{class:'price'}, formatPrice(item.price));
+        const status = el('div',{class:'status '+(item.available?'available':'sold')}, item.available? 'Tersedia' : 'Sold Out');
+        const waLink = el('a',{class:'btn wa',href:`https://wa.me/6287759782958?text=${encodeURIComponent('Halo Studio Neoansa, saya tertarik dengan: '+item.title)}`,target:'_blank','rel':'noopener'}, 'Pesan');
+        const detailBtn = el('button',{class:'btn detail',type:'button'}, 'Lihat');
+        detailBtn.addEventListener('click', ()=> openModal(item));
+        const actions = el('div',{class:'card-actions'}, [waLink, detailBtn]);
+
+        const body = el('div',{class:'card-body'}, [title, meta, el('div',{class:'price-row'}, [price, status]), actions]);
+        const card = el('article',{class:'card fade-in'}, [img, body]);
+        gridRoot.appendChild(card);
+      });
+    }
+
+    /********** MODAL / LIGHTBOX **********/
+    const modalRoot = $('#modal-root');
+    function openModal(item){
+      modalRoot.innerHTML = '';
+      modalRoot.style.display = 'flex';
+      const backdrop = el('div',{class:'modal-backdrop'}, []);
+      const modal = el('div',{class:'modal'}, []);
+      const imgWrap = el('div',{class:'imgwrap'}, el('img',{src:item.image,alt:item.title}));
+      const info = el('div',{class:'info'}, []);
+      const title = el('h2',{style:'margin:0 0 8px'}, item.title);
+      const desc = el('p',{style:'color:var(--muted);margin:0 0 12px'}, item.desc);
+      const size = el('p',{style:'margin:0 0 6px;color:var(--muted)'}, 'Ukuran: '+item.size);
+      const date = el('p',{style:'margin:0 0 12px;color:var(--muted)'}, 'Tanggal: '+item.date);
+      const price = el('div',{style:'font-weight:800;font-size:1.05rem;margin-bottom:12px'}, formatPrice(item.price));
+      const status = el('div',{class:'status '+(item.available?'available':'sold')}, item.available? 'Tersedia' : 'Sold Out');
+      const waBtn = el('a',{class:'btn wa',href:`https://wa.me/6287759782958?text=${encodeURIComponent('Halo Studio Neoansa, saya mau pesan: '+item.title)}`,target:'_blank','rel':'noopener'}, 'Pesan via WhatsApp');
+      const closeBtn = el('button',{class:'close-btn','aria-label':'Tutup'}, '✕');
+      closeBtn.addEventListener('click', closeModal);
+      backdrop.addEventListener('click', (e)=> { if(e.target===backdrop) closeModal(); });
+
+      info.append(title, desc, size, date, price, status, waBtn);
+      modal.append(imgWrap, info);
+      backdrop.append(modal, closeBtn);
+      modalRoot.appendChild(backdrop);
+
+      // allow Esc key to close
+      function esc(e){ if(e.key==='Escape') closeModal(); }
+      document.addEventListener('keydown', esc);
+      function removeEsc(){ document.removeEventListener('keydown', esc); }
+      function closeModal(){
+        modalRoot.style.display = 'none';
+        modalRoot.innerHTML = '';
+        removeEsc();
+      }
+      // expose closeModal locally
+      window.__closeModal = closeModal;
+    }
+    function closeModal(){ if(window.__closeModal) window.__closeModal(); }
+
+    /********** THEME TOGGLE, SEARCH, SORT, TOP BTN **********/
+    const themeToggle = $('#theme-toggle');
+    themeToggle.addEventListener('click', ()=> {
+      const root = document.documentElement;
+      if(root.getAttribute('data-theme') === 'light'){ root.setAttribute('data-theme','dark'); document.body.setAttribute('data-theme','dark'); localStorage.setItem('neoansa_theme','dark'); }
+      else { root.setAttribute('data-theme','light'); document.body.setAttribute('data-theme','light'); localStorage.setItem('neoansa_theme','light'); }
+    });
+    // init theme
+    (function(){
+      const saved = localStorage.getItem('neoansa_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+      document.body.setAttribute('data-theme', saved);
+    })();
+
+    searchInput.addEventListener('input', ()=> { renderGrid(); });
+    sortSelect.addEventListener('change', ()=> renderGrid());
+
+    // Back to top
+    const topBtn = $('#top-btn');
+    topBtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+    window.addEventListener('scroll', ()=> {
+      if(window.scrollY > 300) topBtn.style.display = 'block'; else topBtn.style.display = 'none';
+    });
+    topBtn.style.display = 'none';
+
+    /********** INIT **********/
+    (function init(){
+      document.getElementById('year').textContent = new Date().getFullYear();
+      renderChips();
+      renderGrid();
+    })();
+  </script>
 </body>
 </html>
